@@ -64,7 +64,7 @@ class SnailTest < ActiveSupport::TestCase
     assert !s.to_s.match(/United States/i)
   end
 
-  test "does not include country name for domestic addresses in canada" do
+  test "does not include country name for domestic addresses in Canada" do
     Snail.home_country = "Canada"
     s = Snail.new(@ca)
     assert !s.to_s.match(/Canada/i)
@@ -101,5 +101,67 @@ class SnailTest < ActiveSupport::TestCase
     s.name = 'John & Jane Doe'
     assert_equal "<address>John &amp; Jane Doe<br />12345 5th St<br />Somewheres NY  12345<br />CANADA</address>", s.to_html
     assert s.to_html.html_safe?
+  end
+end
+
+describe Snail do
+  describe 'with an unknown country' do
+    before do
+      @snail = Snail.new({
+        :name => 'Jon Doe',
+        :line_1 => '12345 Somewhere Ln',
+        :city => 'Faketown',
+        :region => '??',
+        :postal_code => '1234',
+        :country => 'Unkown',
+      })
+
+      @logger = MiniTest::Mock.new
+      @log_message = "[Snail] Unknown Country: Unkown"
+    end
+
+    describe 'without Rails' do
+      before do
+        Logger.stubs(:new).returns(@logger)
+        Kernel.stubs(:const_get).with(:Rails).returns(nil)
+      end
+
+      it 'logs to a new logger' do
+        @logger.expect(:error, nil, [@log_message])
+        @snail.to_s
+      end
+    end
+
+    describe 'with Rails' do
+      before do
+        if !defined?(Rails)
+          @rails = MiniTest::Mock.new
+          Kernel.const_set(:Rails, @rails)
+        end
+      end
+
+      describe 'without logger defined' do
+        before do
+          Rails.stubs(:logger).returns(nil)
+          Logger.stubs(:new).returns(@logger)
+        end
+
+        it 'logs to a new logger' do
+          @logger.expect(:error, nil, [@log_message])
+          @snail.to_s
+        end
+      end
+
+      describe 'with logger defined' do
+        before do
+          Rails.stubs(:logger).returns(@logger)
+        end
+
+        it 'logs to that logger' do
+          @logger.expect(:error, nil, [@log_message])
+          @snail.to_s
+        end
+      end
+    end
   end
 end

@@ -3,6 +3,8 @@ require 'snail/constants'
 require 'snail_helpers'
 
 require 'cgi'
+require 'fileutils'
+require 'logger'
 require 'active_support/core_ext/string/output_safety'
 
 if defined? ActionView
@@ -99,14 +101,28 @@ class Snail
     when 'Czech Republic'
       "#{postal_code} #{region}\n#{city}"
     else
-      if Kernel.const_defined?("Rails")
-        Rails.logger.error "[Snail] Unknown Country: #{country}"
-      end
+      logger.error "[Snail] Unknown Country: #{country}"
       "#{city} #{region}  #{postal_code}"
     end
   end
   
   def country_line
     self.class.home_country.to_s.upcase == country.to_s.upcase ? nil : country.to_s.upcase
+  end
+
+private
+
+  def logger
+    if @logger
+      return @logger
+    end
+
+    # Rails.logger can be nil, even with Rails being defined
+    if Kernel.const_get(:Rails) && Rails.respond_to?(:logger) && Rails.logger
+      @logger = Rails.logger
+    else
+      # FileUtils.mkdir_p('log') # For Ruby 1.8.7
+      @logger = Logger.new('log/snail.log')
+    end
   end
 end

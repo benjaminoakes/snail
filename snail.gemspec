@@ -8,7 +8,10 @@ Gem::Specification.new do |s|
   s.homepage          = "http://github.com/cainlevy/snail"
   s.has_rdoc          = true
   s.rdoc_options      << "--title" << "Snail" << "--line-numbers"
+  s.files             = Dir.glob("lib/**/*.rb") + Dir.glob("test/**/*.rb") + ["README.rdoc","MIT-LICENSE"]
+
   s.add_dependency('activesupport', '> 3.0.0')
   s.add_development_dependency('rake', '~> 0.8.7')
-  s.files             = Dir.glob("lib/**/*.rb") + Dir.glob("test/**/*.rb") + ["README.rdoc","MIT-LICENSE"]
+  s.add_development_dependency('mocha', '~> 0.10.0')
+  s.add_development_dependency('minitest', '~> 2.9.1')
 end
