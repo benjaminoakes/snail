@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    snail (0.5.7)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    rake (0.8.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rake (~> 0.8.7)
+  snail!
