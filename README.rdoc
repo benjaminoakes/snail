@@ -2,6 +2,8 @@
 
 International snail mail addressing is a pain. This plugin begins to make it easier.
 
+http://travis-ci.org/benjaminoakes/snail.png ({More info}[http://travis-ci.org/benjaminoakes/snail])
+
 == How?
 
 The basic idea is that mailing addresses need first and foremost to make it OUT of the originating country. It's beyond the scope of my current work to consider any originating country besides the United States, so that's where I am beginning. I will leave other countries of origination to the open source community.
