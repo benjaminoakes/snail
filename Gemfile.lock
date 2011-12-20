@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     snail (0.5.7)
-      activesupport (> 3.0.0)
+      activesupport (>= 3.0.0)
 
 GEM
   remote: http://rubygems.org/
