@@ -103,5 +103,3 @@ class SnailTest < ActiveSupport::TestCase
     assert s.to_html.html_safe?
   end
 end
-
-
