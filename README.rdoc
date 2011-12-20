@@ -67,4 +67,13 @@ be left off any output. To change the home country:
 
 See the test cases for more.
 
+== Contributing
+
+=== Setting up Environment
+
+Setting up the build environment is automated. Please run these commands to make sure you’re able to run the code.
+
+    ./configure
+    rake
+
 Copyright (c) 2009 Lance Ivy, released under the MIT license
